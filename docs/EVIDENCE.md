@@ -161,16 +161,16 @@ goes to a human at 0.63.
 
 | Measure | Value |
 |---|---|
-| Rubric A and B agree on the band | **18 / 120 (15%)** |
-| Disagree by 2+ bands (changes what an analyst does) | **42** |
+| Rubric A and B agree on the band | **17 / 120 (14%)** |
+| Disagree by 2+ bands (changes what an analyst does) | **44** |
 | Obvious-floor cases met under at least one rubric | **32 / 32** |
 
 Band distribution under each reading of the same 120 complaints:
 
 | | S1 | S2 | S3 | S4 |
 |---|---|---|---|---|
-| **A** — harm-weighted | 17 | 51 | 34 | 18 |
-| **B** — exposure-weighted | **86** | 22 | 6 | 6 |
+| **A** — harm-weighted | 16 | 51 | 34 | 19 |
+| **B** — exposure-weighted | **86** | 22 | 5 | 7 |
 
 Two things fall out that neither analyst predicted:
 

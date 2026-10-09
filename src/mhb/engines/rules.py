@@ -108,27 +108,47 @@ class RulesEngine:
         window = text[max(0, idx - 90): idx + 10]
         return any(rx.search(window) for rx in self._negations)
 
+    # A call-centre note is written in the third person: the rep types "cx atty"
+    # where the customer said "my attorney". Trigger phrases anchored on a
+    # first-person possessive therefore cannot fire on that channel at all —
+    # "without my consent" never matches "without customer consent". Rather
+    # than maintain a third-person twin of every such trigger, matching runs a
+    # second pass over a pronoun-swapped copy of the text. The swap produces
+    # ungrammatical English ("customer has" -> "my has"), which is harmless
+    # because matching is substring-based, and it keeps one trigger list
+    # working across all three channels.
+    _PRONOUN_SWAP = re.compile(r"\bcustomer\b")
+
+    def _match_passes(self, low: str) -> list[str]:
+        swapped = self._PRONOUN_SWAP.sub("my", low)
+        return [low] if swapped == low else [low, swapped]
+
     def detect_regulatory(self, text: str) -> list[RegHit]:
         low = text.lower()
-        # Categories the customer explicitly disclaimed anywhere in the text.
-        disclaimed: set[str] = set()
-        for rx, cats in self._doc_guards:
-            if rx.search(low):
-                disclaimed |= cats
-
         hits: list[RegHit] = []
-        for cat in self.reg["categories"]:
-            for trig in cat["triggers"]:
-                idx = low.find(trig)
-                if idx == -1:
-                    continue
-                if cat["id"] in disclaimed:
-                    strength = "weak"
-                elif self._negated(low, idx):
-                    strength = "weak"
-                else:
-                    strength = "strong"
-                hits.append(RegHit(cat["id"], trig, strength))
+        seen: set[tuple[str, str]] = set()
+
+        for pass_text in self._match_passes(low):
+            # Categories the customer explicitly disclaimed anywhere in the text.
+            disclaimed: set[str] = set()
+            for rx, cats in self._doc_guards:
+                if rx.search(pass_text):
+                    disclaimed |= cats
+
+            for cat in self.reg["categories"]:
+                for trig in cat["triggers"]:
+                    idx = pass_text.find(trig)
+                    if idx == -1:
+                        continue
+                    if cat["id"] in disclaimed or self._negated(pass_text, idx):
+                        strength = "weak"
+                    else:
+                        strength = "strong"
+                    key = (cat["id"], trig)
+                    if key in seen:
+                        continue
+                    seen.add(key)
+                    hits.append(RegHit(cat["id"], trig, strength))
         return hits
 
     # --------------------------------------------------------------- signals

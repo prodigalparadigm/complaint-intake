@@ -118,7 +118,7 @@ We wrote both analysts' readings as config files — `severity_rubric.A.json`
 (exposure-weighted: "this is the one that ends up in an exam finding") — and score
 every complaint under both.
 
-They agree on **15% of complaints**.
+They agree on **14% of complaints**.
 
 That number is the deliverable. It converts an unresolvable corridor argument into a
 worklist of specific complaints where the two readings diverge, which is an agenda
@@ -233,7 +233,7 @@ thing that ends a pilot. The data is there for a human to look at.
 1. **Ship the regulatory tripwire alone.** Two weeks, read-only, no workflow change,
    nothing customer-facing. It addresses the only finding with a statutory deadline.
 2. **Run the calibration session.** One hour, the two senior analysts, the ops head,
-   the 42 flagged complaints. Output is one ratified rubric file. Everything
+   the 44 flagged complaints. Output is one ratified rubric file. Everything
    downstream of "serious" is blocked on this and it costs an hour.
 3. **Measure review time.** Two weeks of analysts working pre-triaged cases with
    timing. This replaces the entire business case model with a real number.

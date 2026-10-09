@@ -33,6 +33,7 @@ from __future__ import annotations
 
 import json
 import random
+import re
 from datetime import datetime, timedelta
 from pathlib import Path
 
@@ -282,6 +283,22 @@ RECUR_CYCLE = (
 )  # 20 slots
 
 
+ACCOUNT_WORD = re.compile(
+    r"(?i)(?:acct|account|a/c|checking|savings|loan|card|mortgage)\W{0,18}\{ACCT\}"
+)
+
+
+def _has_account_word(template: str) -> bool:
+    """Does the template already put an account-ish word before the slot?
+
+    The keyword-anchored ACCOUNT redaction rule needs one nearby to fire. An
+    earlier version tested only for the lowercase literal "account {ACCT}", so
+    a template reading "Account {ACCT}." got a second one prepended and the
+    corpus said "Account account 4471902233."
+    """
+    return bool(ACCOUNT_WORD.search(template))
+
+
 def money(lo: int, hi: int) -> str:
     v = random.randint(lo, hi)
     return f"${v:,}.{random.choice(['00','00','49','95','12'])}"
@@ -331,13 +348,42 @@ def build_form(name: str, body: str, email: str, phone: str, acct_type: str, bra
     )
 
 
+# First person to third person, longest forms first. A rep writes "cx has the
+# receipt", not "I have the receipt" — and the intake agent expands "cx" back to
+# "customer", so the result has to be grammatical on the way out.
+THIRD_PERSON = [
+    ("I am writing about", "cx clmd re:"),
+    ("I have ", "cx has "), ("I had ", "cx had "), ("I am ", "cx is "),
+    ("I was ", "cx was "), ("I will ", "cx will "), ("I would ", "cx would "),
+    ("I do not ", "cx does not "), ("I don't ", "cx doesn't "),
+    ("I did not ", "cx did not "), ("I didn't ", "cx didn't "),
+    ("I can't ", "cx cannot "), ("I cannot ", "cx cannot "),
+    ("I want ", "cx wants "), ("I need ", "cx needs "),
+    ("I think ", "cx thinks "), ("I expect ", "cx expects "),
+    ("I called ", "cx called "), ("I asked ", "cx asked "),
+    ("I went ", "cx went "), ("I applied ", "cx applied "),
+    ("I paid ", "cx paid "), ("I made ", "cx made "),
+    ("I opened ", "cx opened "), ("I sent ", "cx sent "),
+    ("I wired ", "cx wired "), ("I reset ", "cx reset "),
+    ("I requested ", "cx requested "), ("I filed ", "cx filed "),
+    ("I spoke ", "cx spoke "), ("I bank ", "cx banks "),
+    ("I live ", "cx lives "), ("I found ", "cx found "),
+    ("I ", "cx "), ("My ", "cx "), ("my ", "cx "), (" me ", " cx "),
+]
+
+ABBREV = [
+    ("unauthorized", "unauth"), ("overdraft", "OD"), ("account", "acct"),
+    ("statement", "stmt"), ("transaction", "txn"), ("branch", "br"),
+    ("manager", "mgr"), ("dispute", "disp"), ("frustrated", "frst"),
+]
+
+
 def build_note(name: str, body: str, phone: str, rep: str) -> str:
-    short = body.replace("I am writing about", "cx clmd re:").replace("I ", "cx ")
-    short = short.replace("unauthorized", "unauth").replace("overdraft", "OD")
-    short = short.replace("account", "acct").replace("statement", "stmt")
-    short = short.replace("transaction", "txn").replace("customer", "cust")
-    short = short.replace("branch", "br").replace("manager", "mgr")
-    short = short.replace("dispute", "disp").replace("frustrated", "frst")
+    short = body
+    for a, b in THIRD_PERSON:
+        short = short.replace(a, b)
+    for a, b in ABBREV:
+        short = short.replace(a, b)
     return (
         f"CALL NOTE - rep {rep}\n"
         f"Caller: {name} - CB {phone}\n"
@@ -376,7 +422,7 @@ def main() -> None:
             body = (body_t
                     .replace("{AMOUNT}", amount)
                     .replace("{SMALL}", money(8, 95))
-                    .replace("{ACCT}", f"account {acct}" if "account {ACCT}" not in body_t else acct)
+                    .replace("{ACCT}", acct if _has_account_word(body_t) else f"account {acct}")
                     .replace("{CARD4}", card[-4:])
                     .replace("{SSN}", ssn)
                     .replace("{PHONE}", phone)

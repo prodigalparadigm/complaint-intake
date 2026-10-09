@@ -1,7 +1,15 @@
 {
   "ruleset_id": "redaction.v1",
-  "note": "Order matters: longest/most specific identifiers are matched first so a 16-digit PAN is not shredded by the 10-digit account rule.",
+  "note": "Order matters twice over: the first rule to claim a span wins, so the most specific rules run first. ROUTING precedes SSN (a routing number matches the SSN shape), and CARD_PAN precedes the account rules so a 16-digit PAN is not shredded by a 10-digit account match.",
   "rules": [
+    {
+      "id": "ROUTING",
+      "token": "ROUTING",
+      "pattern": "\\b(?:routing|aba|rtn)\\D{0,15}(\\d{9})\\b",
+      "validator": "aba",
+      "group": 1,
+      "note": "Runs before SSN: a 9-digit routing number also matches the SSN pattern, and whichever rule claims the span first decides the LABEL. This rule is keyword-anchored and checksum-validated, so it is the more specific of the two."
+    },
     {
       "id": "SSN",
       "token": "SSN",
@@ -13,13 +21,6 @@
       "token": "CARD",
       "pattern": "\\b(?:\\d[ -]?){12,18}\\d\\b",
       "validator": "luhn"
-    },
-    {
-      "id": "ROUTING",
-      "token": "ROUTING",
-      "pattern": "\\b(?:routing|aba|rtn)\\D{0,15}(\\d{9})\\b",
-      "validator": "aba",
-      "group": 1
     },
     {
       "id": "ACCOUNT",

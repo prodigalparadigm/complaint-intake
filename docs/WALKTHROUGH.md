@@ -192,7 +192,7 @@ Let that sit, then:
 > actually out money.' Rubric B is exposure-weighted — 'this is the one that ends up
 > in an exam finding.'
 >
-> They agree on fifteen percent."
+> They agree on fourteen percent."
 
 Pause.
 
@@ -205,7 +205,7 @@ Pause.
 
 > "Green is agreement. Purple is where they are two or more bands apart — one of
 > them would put a named owner on it today and the other would put it in the
-> standard queue. Forty-two complaints."
+> standard queue. Forty-four complaints."
 
 **Then the two findings:**
 
@@ -229,7 +229,7 @@ Pause.
 
 **The ask:**
 
-> "So what I am handing you is not a severity model. It is this list. Forty-two
+> "So what I am handing you is not a severity model. It is this list. Forty-four
 > specific complaints where your two analysts would do different things. Put the
 > three of you in a room for an hour with this list and you will come out with a
 > definition — not an abstract one, a decided one. Then that becomes a single file,
@@ -292,7 +292,7 @@ Pause.
 
 > "Four things, in order of how much they are blocking.
 >
-> **One hour from the two senior analysts and yourself** on those 42 complaints.
+> **One hour from the two senior analysts and yourself** on those 44 complaints.
 > This is blocking everything downstream of the word 'serious' and it costs an hour.
 >
 > **Two weeks of stopwatch data** on analyst review time. Replaces our entire

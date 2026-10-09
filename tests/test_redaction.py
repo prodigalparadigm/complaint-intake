@@ -95,6 +95,21 @@ class TestRedaction(unittest.TestCase):
                               "", "MHB-TEST")
         self.assertEqual(r.residual_risk_notes, [])
 
+    def test_routing_number_is_labelled_routing_not_ssn(self):
+        """Regression: a 9-digit routing number also matches the SSN pattern.
+        SSN ran first, so routing numbers were vaulted under an SSN label — no
+        leak, but a compliance officer reading "SSN removed" would reasonably
+        conclude the customer had sent their social security number."""
+        r = self.agent.redact("My routing number is 121000248 if you need it.",
+                              "", "MHB-TEST")
+        self.assertIn("[ROUTING_1]", r.redacted_text)
+        self.assertNotIn("[SSN_", r.redacted_text)
+        self.assertEqual([f.rule_id for f in r.findings], ["ROUTING"])
+
+    def test_a_real_ssn_is_still_labelled_ssn(self):
+        r = self.agent.redact("My SSN is 512-44-9087.", "", "MHB-TEST")
+        self.assertIn("[SSN_1]", r.redacted_text)
+
     def test_username_rule_requires_a_separator(self):
         """Regression: an optional separator made 'suspicious login from a
         state' vault the word 'from' as a username."""

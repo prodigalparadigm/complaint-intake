@@ -49,12 +49,12 @@ of Legal, not a verbal assurance.
 **Current placeholder:** two unratified rubrics, both scored, disagreement reported
 
 This is the cheapest and highest-leverage item on the list: one hour, three people,
-and the 42 flagged complaints in the console's third tab.
+and the 44 flagged complaints in the console's third tab.
 
 Bring to the session:
 
-- **The 15% agreement rate.** Your two most experienced analysts triage the same
-  complaint the same way 15% of the time. That is not a criticism of either of them;
+- **The 14% agreement rate.** Your two most experienced analysts triage the same
+  complaint the same way about one time in seven. That is not a criticism of either of them;
   it is what happens when a term is never written down.
 - **What Rubric B does at volume.** "A live statutory clock is always a one" makes
   86 of 120 complaints critical. The instinct is sound; the band structure around it

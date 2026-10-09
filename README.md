@@ -57,6 +57,7 @@ PYTHONPATH=src python3 -m mhb render  MHB-XXXXXXXX   # the letter, rehydrated
 
 | | |
 |---|---|
+| **[QUICKSTART.md](QUICKSTART.md)** | Run the demo end to end, change behaviour without touching code, troubleshoot. Read this first if you just want it working. |
 | **[docs/SCOPE.md](docs/SCOPE.md)** | What they asked for vs. what they need. The argument, and what we deliberately did not build. Start here. |
 | **[docs/WALKTHROUGH.md](docs/WALKTHROUGH.md)** | The 40-minute Friday script for the ops head and the compliance officer, with the objections they will raise. |
 | **[docs/EVIDENCE.md](docs/EVIDENCE.md)** | Measured results, separated into "holds by construction" and "measured, with caveats". Includes what we got wrong. |
@@ -70,8 +71,8 @@ PYTHONPATH=src python3 -m mhb render  MHB-XXXXXXXX   # the letter, rehydrated
 **1. The severity rubric is the finding, not the feature.**
 Nobody could define "serious", and the two senior analysts disagreed in front of us.
 Rather than encode one analyst's instincts and present the output as objective, the
-system scores every complaint under both readings. **They agree 15% of the time.**
-That number converts an unresolvable argument into a worklist of 42 specific
+system scores every complaint under both readings. **They agree 14% of the time.**
+That number converts an unresolvable argument into a worklist of 44 specific
 complaints — an agenda for a one-hour meeting that would actually settle it.
 
 **2. The human gate is structural, not procedural.**
@@ -99,7 +100,7 @@ outbound payload would contain without sending anything.
 | Regulatory recall — politely-worded regulatory complaints | **25%** ← the real ceiling |
 | Regulatory cases flagged within 48h | 92 / 92, worst latency 0.0h |
 | Routing accuracy | 93.3%, and **every misroute flagged** for human confirmation |
-| Rubric A vs B agreement on severity | **15%** |
+| Rubric A vs B agreement on severity | **14%** |
 | Cases the pipeline marked sendable | 0 |
 | Throughput | 2.65 ms/complaint — 3.7 seconds for a month's volume |
 | Tests | 110 passing |

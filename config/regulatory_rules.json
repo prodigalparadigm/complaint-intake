@@ -193,7 +193,6 @@
       "triggers": [
         "called me at work",
         "calling me at work",
-        "called my",
         "keeps calling",
         "called me seven",
         "called me at 6am",
@@ -205,8 +204,18 @@
         "told my employer",
         "told my neighbor",
         "garnish",
-        "stop calling"
-      ]
+        "stop calling",
+        "called my work",
+        "called my employer",
+        "called my job",
+        "called my neighbor",
+        "called my neighbour",
+        "called my family",
+        "called my references",
+        "called my mother",
+        "called my sister"
+      ],
+      "note": "Triggers name the places a collector must not call. An earlier bare 'called my' matched any call at all, including the bank's own callback once third-person notes were normalised."
     },
     {
       "id": "RESPA_SERVICING",
