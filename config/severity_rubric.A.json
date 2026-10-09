@@ -1,0 +1,25 @@
+{
+  "rubric_id": "severity.A.v1",
+  "label": "Rubric A — harm-weighted",
+  "provenance": "Reconstructed from senior analyst #1 in the 2026-10-08 discovery session: 'serious means the customer is actually out money or actually can't pay their rent.'",
+  "status": "UNRATIFIED — no one at Meridian Harbor has signed this. It is our reading of one analyst's instincts.",
+  "dimensions": {
+    "financial_harm":      {"weight": 3.0, "levels": {"0": "No money at stake", "1": "Under $100 or already refunded", "2": "$100-$1000 unresolved", "3": "Over $1000 unresolved, or funds inaccessible"}},
+    "vulnerability":       {"weight": 2.5, "levels": {"0": "No signal", "1": "Mild hardship language", "2": "Fixed income, elderly, disability, bereavement", "3": "Cannot meet an essential obligation now"}},
+    "regulatory_exposure": {"weight": 1.5, "levels": {"0": "None detected", "1": "Adjacent to a regulated practice", "2": "Regulated practice implicated", "3": "Statutory clock running"}},
+    "recurrence":          {"weight": 1.5, "levels": {"0": "First contact", "1": "Second contact", "2": "Third contact", "3": "Fourth or more, or prior complaint unresolved"}},
+    "duration_unresolved": {"weight": 1.0, "levels": {"0": "Under a week", "1": "1-2 weeks", "2": "2-6 weeks", "3": "Over six weeks"}},
+    "escalation_signals":  {"weight": 1.0, "levels": {"0": "None", "1": "Frustration, threat to leave", "2": "Attorney or BBB mentioned", "3": "Regulator or media contacted"}},
+    "relationship_value":  {"weight": 0.5, "levels": {"0": "Unknown", "1": "Standard", "2": "Long tenure or multi-product", "3": "Flagged relationship"}}
+  },
+  "bands": [
+    {"id": "S1", "label": "Critical — same-day owner",      "min_normalized": 0.70},
+    {"id": "S2", "label": "High — 72-hour owner",            "min_normalized": 0.48},
+    {"id": "S3", "label": "Standard — one week",             "min_normalized": 0.26},
+    {"id": "S4", "label": "Routine — standard queue",        "min_normalized": 0.0}
+  ],
+  "overrides": [
+    {"id": "A-OV1", "when": "dimension:vulnerability>=3", "force_min_band": "S1", "reason": "Analyst #1: 'if they can't pay rent this week it is a one, full stop.'"},
+    {"id": "A-OV2", "when": "dimension:financial_harm>=3", "force_min_band": "S2", "reason": "Over $1000 unresolved is never routine."}
+  ]
+}

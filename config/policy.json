@@ -1,0 +1,47 @@
+{
+  "policy_id": "mhb.policy.v1",
+  "effective_date": "2026-10-08",
+  "owner": "Meridian Harbor Bank — Retail Operations + Compliance (joint)",
+  "note": "Prototype values. Every number here is a placeholder pending client sign-off; see docs/DECISIONS.md.",
+
+  "gates": {
+    "customer_text_requires_human_approval": true,
+    "agents_may_send_customer_text": false,
+    "approval_requires_named_approver": true,
+    "approval_requires_distinct_approver_from_drafter": false
+  },
+
+  "sla_hours": {
+    "compliance_flag": 48,
+    "ack_customer": 120,
+    "resolve_s1": 72,
+    "resolve_s2": 168,
+    "resolve_s3": 336,
+    "resolve_s4": 480
+  },
+
+  "confidence_thresholds": {
+    "routing_autoaccept": 0.70,
+    "severity_autoaccept": 0.65,
+    "draft_autoattach": 0.60
+  },
+
+  "escalation": {
+    "regulatory_hit_forces_compliance_queue": true,
+    "rubric_disagreement_bands_forces_calibration_flag": 2,
+    "unknown_channel_forces_human": true
+  },
+
+  "throughput_assumptions": {
+    "note": "Used only by `mhb simulate`. These are the numbers the client must validate — they drive the entire business case.",
+    "complaints_per_month": 1400,
+    "working_days_per_month": 21,
+    "analysts": 3,
+    "productive_minutes_per_analyst_day": 360,
+    "baseline_minutes_per_complaint": 18.0,
+    "assisted_minutes_per_complaint_routine": 5.0,
+    "assisted_minutes_per_complaint_escalated": 14.0,
+    "escalated_share_estimate": 0.25,
+    "current_backlog_days": 6.0
+  }
+}

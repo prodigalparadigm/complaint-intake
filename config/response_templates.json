@@ -1,0 +1,101 @@
+{
+  "ruleset_id": "templates.v1",
+  "owner": "Compliance (text) + Retail Operations (routing of text)",
+  "review_note": "These are the only words the system is allowed to put in front of a customer, and they are reviewable here as flat text rather than inside code. The pipeline fills slots; it does not invent sentences. Changing a template is a compliance change, tracked in git.",
+  "slots": [
+    "{{CUSTOMER_NAME}}",
+    "{{CASE_ID}}",
+    "{{ISSUE_SUMMARY}}",
+    "{{AMOUNT}}",
+    "{{NEXT_STEP}}",
+    "{{DEADLINE_DATE}}",
+    "{{DEPARTMENT_LABEL}}",
+    "{{ANALYST_NAME}}"
+  ],
+  "templates": [
+    {
+      "id": "T-ACK-REGE",
+      "applies_to": {
+        "regulatory_any": [
+          "REG_E_EFT",
+          "REG_Z_BILLING"
+        ]
+      },
+      "subject": "We have opened an investigation \u2014 case {{CASE_ID}}",
+      "body": "Dear {{CUSTOMER_NAME}},\n\nThank you for contacting Meridian Harbor Bank about {{ISSUE_SUMMARY}}. We have opened case {{CASE_ID}} and begun an investigation.\n\nBecause your concern involves a disputed transaction, specific federal timeframes apply to our review. We will complete our investigation and write to you with the outcome. If our review takes longer than the initial period allowed, we will tell you what interim steps apply to your account.\n\nYou do not need to do anything further right now. If you have documents that would help \u2014 such as a receipt or a screenshot \u2014 you can reply to this message and they will be added to the case.\n\n{{NEXT_STEP}}\n\nSincerely,\n{{ANALYST_NAME}}\n{{DEPARTMENT_LABEL}}\nMeridian Harbor Bank",
+      "must_not_state": [
+        "the outcome of the investigation",
+        "a specific credit amount",
+        "a promise of refund"
+      ]
+    },
+    {
+      "id": "T-ACK-FEE",
+      "applies_to": {
+        "regulatory_any": [
+          "REG_DD_FEES"
+        ]
+      },
+      "subject": "About the fees on your account \u2014 case {{CASE_ID}}",
+      "body": "Dear {{CUSTOMER_NAME}},\n\nThank you for writing to us about {{ISSUE_SUMMARY}}. We have opened case {{CASE_ID}}.\n\nA member of our {{DEPARTMENT_LABEL}} team is reviewing the fees assessed on your account and the disclosures that applied to them. We will write to you with what we find and, where a fee was applied in error, what we are doing about it.\n\n{{NEXT_STEP}}\n\nSincerely,\n{{ANALYST_NAME}}\n{{DEPARTMENT_LABEL}}\nMeridian Harbor Bank",
+      "must_not_state": [
+        "that the fee was correct",
+        "that the fee will be refunded"
+      ]
+    },
+    {
+      "id": "T-ACK-HARDSHIP",
+      "applies_to": {
+        "min_dimension": {
+          "vulnerability": 2
+        }
+      },
+      "subject": "We have your message \u2014 case {{CASE_ID}}",
+      "body": "Dear {{CUSTOMER_NAME}},\n\nThank you for telling us what is happening. We have opened case {{CASE_ID}} about {{ISSUE_SUMMARY}}, and I want you to know a person is looking at it rather than a queue.\n\nA member of our {{DEPARTMENT_LABEL}} team will contact you directly. If there is a deadline on your side that we should know about, reply to this message and tell us the date \u2014 we will work to it.\n\n{{NEXT_STEP}}\n\nSincerely,\n{{ANALYST_NAME}}\n{{DEPARTMENT_LABEL}}\nMeridian Harbor Bank",
+      "must_not_state": [
+        "a guarantee of any specific relief"
+      ]
+    },
+    {
+      "id": "T-ACK-SERVICE",
+      "applies_to": {
+        "default": true
+      },
+      "subject": "We received your complaint \u2014 case {{CASE_ID}}",
+      "body": "Dear {{CUSTOMER_NAME}},\n\nThank you for contacting Meridian Harbor Bank about {{ISSUE_SUMMARY}}. We have opened case {{CASE_ID}} and routed it to our {{DEPARTMENT_LABEL}} team.\n\nWe are reviewing what happened and will write to you with what we find. If you would like to add anything to the case, you can reply to this message.\n\n{{NEXT_STEP}}\n\nSincerely,\n{{ANALYST_NAME}}\n{{DEPARTMENT_LABEL}}\nMeridian Harbor Bank",
+      "must_not_state": []
+    }
+  ],
+  "deferred_slots": [
+    "{{CUSTOMER_NAME}}",
+    "{{ANALYST_NAME}}"
+  ],
+  "deferred_slots_note": "These two slots are deliberately left UNFILLED by the pipeline. The customer's name is PII and is resolved from the system of record at send time, inside the bank's network; the analyst name is whoever approves the draft. A draft sitting in the review queue therefore contains no customer identity at all. Every other slot must be filled before QA will pass the draft.",
+  "issue_topics_note": "What the letter says the complaint is ABOUT. An earlier version spliced the customer's own first sentence into the template, which produced ungrammatical letters ('thank you for writing to us about I had three overdraft fees...') and dropped redaction placeholders into customer-facing text. These are compliance-approved topic phrases instead: neutral, grammatical, and they characterise the subject without paraphrasing the customer's account of events or conceding anything. The analyst still sees the customer's own words in the console.",
+  "issue_topics": {
+    "by_regulatory": {
+      "REG_E_EFT": "a transaction on your account that you have told us you did not authorise",
+      "REG_Z_BILLING": "the billing on your credit card account",
+      "REG_DD_FEES": "the fees applied to your account and the disclosures that applied to them",
+      "UDAAP": "the way your account was handled and what you were told about it",
+      "ECOA_FAIRLEND": "the decision on your credit application and the reasons given for it",
+      "FCRA_FURNISH": "the information we reported about your account to a credit reporting agency",
+      "FDCPA_COLLECT": "the contact you have received from our collections team",
+      "RESPA_SERVICING": "the servicing of your mortgage loan",
+      "REGULATOR_CONTACT": "the concerns you have raised about your account",
+      "LEGAL_MEDIA_THREAT": "the concerns you have raised about your account"
+    },
+    "by_department": {
+      "CARDS_DISPUTES": "a charge on your card account",
+      "DEPOSIT_OPS": "your deposit account",
+      "FRAUD_SECURITY": "unauthorised activity you have reported on your account",
+      "DIGITAL_BANKING": "the trouble you have had using our app and online banking",
+      "LENDING": "your loan application",
+      "MORTGAGE_SERVICING": "the servicing of your mortgage loan",
+      "BRANCH_OPS": "your recent experience at our branch",
+      "COLLECTIONS": "your account with our collections team",
+      "GENERAL_SERVICING": "the issue you raised with us"
+    },
+    "fallback": "the issue you raised with us"
+  }
+}

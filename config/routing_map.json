@@ -1,0 +1,217 @@
+{
+  "ruleset_id": "routing.v1",
+  "owner": "Retail Operations",
+  "fallback": "GENERAL_SERVICING",
+  "departments": [
+    {
+      "id": "CARDS_DISPUTES",
+      "label": "Cards & Disputes",
+      "queue_email": "cards-disputes@internal.mhb",
+      "terms": [
+        "debit card",
+        "credit card",
+        "card",
+        "charge",
+        "transaction",
+        "merchant",
+        "chargeback",
+        "dispute",
+        "atm",
+        "pin",
+        "tap to pay",
+        "declined at"
+      ]
+    },
+    {
+      "id": "DEPOSIT_OPS",
+      "label": "Deposit Operations",
+      "queue_email": "deposit-ops@internal.mhb",
+      "terms": [
+        "checking",
+        "savings",
+        "overdraft",
+        "nsf",
+        "insufficient funds",
+        "maintenance fee",
+        "monthly fee",
+        "statement",
+        "deposit hold",
+        "check hold",
+        "mobile deposit",
+        "direct deposit",
+        "balance",
+        "interest rate on my savings",
+        "apy",
+        "cd ",
+        "certificate of deposit",
+        "wire",
+        "wire transfer",
+        "fees",
+        "fee",
+        "closed my account",
+        "account was closed",
+        "escheat",
+        "dormant",
+        "wired",
+        "incoming wire",
+        "outgoing wire"
+      ]
+    },
+    {
+      "id": "FRAUD_SECURITY",
+      "label": "Fraud & Security",
+      "queue_email": "fraud@internal.mhb",
+      "terms": [
+        "unauthorized",
+        "fraud",
+        "stolen",
+        "someone used my",
+        "identity theft",
+        "phishing",
+        "scam",
+        "account takeover",
+        "suspicious login"
+      ]
+    },
+    {
+      "id": "DIGITAL_BANKING",
+      "label": "Digital Banking",
+      "queue_email": "digital@internal.mhb",
+      "terms": [
+        "app",
+        "mobile app",
+        "online banking",
+        "website",
+        "log in",
+        "login",
+        "password",
+        "reset",
+        "two factor",
+        "2fa",
+        "crashed",
+        "error message",
+        "zelle",
+        "bill pay",
+        "mobile check"
+      ]
+    },
+    {
+      "id": "LENDING",
+      "label": "Consumer Lending",
+      "queue_email": "lending@internal.mhb",
+      "terms": [
+        "auto loan",
+        "car loan",
+        "personal loan",
+        "line of credit",
+        "heloc",
+        "loan application",
+        "denied my loan",
+        "credit limit",
+        "underwriting",
+        "pre-approval",
+        "prequalif"
+      ]
+    },
+    {
+      "id": "MORTGAGE_SERVICING",
+      "label": "Mortgage Servicing",
+      "queue_email": "mortgage@internal.mhb",
+      "terms": [
+        "mortgage",
+        "escrow",
+        "property tax",
+        "homeowners insurance",
+        "payoff",
+        "refinance",
+        "foreclosure",
+        "loan modification",
+        "principal",
+        "amortization"
+      ]
+    },
+    {
+      "id": "BRANCH_OPS",
+      "label": "Branch Operations",
+      "queue_email": "branch-ops@internal.mhb",
+      "terms": [
+        "branch",
+        "teller",
+        "manager",
+        "lobby",
+        "drive through",
+        "drive-thru",
+        "wait",
+        "line was",
+        "rude",
+        "closed early",
+        "hours",
+        "notary",
+        "safe deposit",
+        "in person",
+        "staff"
+      ]
+    },
+    {
+      "id": "COLLECTIONS",
+      "label": "Collections",
+      "queue_email": "collections@internal.mhb",
+      "terms": [
+        "collection",
+        "collector",
+        "past due",
+        "delinquent",
+        "keeps calling",
+        "stop calling",
+        "payment plan",
+        "hardship",
+        "garnish",
+        "charge off",
+        "charged off"
+      ]
+    },
+    {
+      "id": "GENERAL_SERVICING",
+      "label": "General Servicing",
+      "queue_email": "servicing@internal.mhb",
+      "terms": [
+        "on hold",
+        "kept me on hold",
+        "call centre",
+        "call center",
+        "nobody called me back",
+        "no one called me back",
+        "transferred me",
+        "hung up",
+        "customer service number",
+        "800 number"
+      ]
+    }
+  ],
+  "tiebreakers": {
+    "note": "Applied before term scoring. These encode ops-head decisions about ownership, not text similarity.",
+    "rules": [
+      {
+        "if_regulatory": "REG_E_EFT",
+        "then_department": "CARDS_DISPUTES",
+        "reason": "Reg E disputes are worked by Cards & Disputes regardless of channel"
+      },
+      {
+        "if_regulatory": "RESPA_SERVICING",
+        "then_department": "MORTGAGE_SERVICING",
+        "reason": "RESPA notices of error must be worked by the servicer of record"
+      },
+      {
+        "if_regulatory": "FDCPA_COLLECT",
+        "then_department": "COLLECTIONS",
+        "reason": "Collection conduct is owned by Collections leadership"
+      },
+      {
+        "if_regulatory": "FCRA_FURNISH",
+        "then_department": "DEPOSIT_OPS",
+        "reason": "PLACEHOLDER \u2014 ops head has not told us who owns furnishing disputes. See docs/DECISIONS.md Q4."
+      }
+    ],
+    "conflict_note": "When an ownership rule sends a case somewhere the complaint's own vocabulary does not point, the routing agent lowers its confidence and records `ownership_rule_conflict`. The rule still wins \u2014 ownership is management's call, not the system's \u2014 but the conflict is surfaced rather than hidden behind a 0.95. On our corpus this is what exposes the REG_E_EFT rule sending every identity-theft complaint to Cards & Disputes instead of Fraud & Security."
+  }
+}

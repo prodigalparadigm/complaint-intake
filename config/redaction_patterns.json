@@ -1,0 +1,90 @@
+{
+  "ruleset_id": "redaction.v1",
+  "note": "Order matters: longest/most specific identifiers are matched first so a 16-digit PAN is not shredded by the 10-digit account rule.",
+  "rules": [
+    {
+      "id": "SSN",
+      "token": "SSN",
+      "pattern": "\\b(?!000|666|9\\d\\d)\\d{3}[- ]?(?!00)\\d{2}[- ]?(?!0000)\\d{4}\\b",
+      "validator": null
+    },
+    {
+      "id": "CARD_PAN",
+      "token": "CARD",
+      "pattern": "\\b(?:\\d[ -]?){12,18}\\d\\b",
+      "validator": "luhn"
+    },
+    {
+      "id": "ROUTING",
+      "token": "ROUTING",
+      "pattern": "\\b(?:routing|aba|rtn)\\D{0,15}(\\d{9})\\b",
+      "validator": "aba",
+      "group": 1
+    },
+    {
+      "id": "ACCOUNT",
+      "token": "ACCT",
+      "pattern": "\\b(?:acct|account|a/c|checking|savings|loan|card)\\D{0,18}(\\d{6,14})\\b",
+      "validator": null,
+      "group": 1
+    },
+    {
+      "id": "ACCOUNT_BARE",
+      "token": "ACCT",
+      "pattern": "\\b\\d{9,14}\\b",
+      "validator": null
+    },
+    {
+      "id": "EMAIL",
+      "token": "EMAIL",
+      "pattern": "\\b[A-Za-z0-9._%+-]+@[A-Za-z0-9.-]+\\.[A-Za-z]{2,}\\b",
+      "validator": null
+    },
+    {
+      "id": "PHONE",
+      "token": "PHONE",
+      "pattern": "(?:\\+1[ -.]?)?\\(?\\b\\d{3}\\)?[ -.]\\d{3}[ -.]\\d{4}\\b",
+      "validator": null
+    },
+    {
+      "id": "DOB",
+      "token": "DOB",
+      "pattern": "\\b(?:0?[1-9]|1[0-2])[/-](?:0?[1-9]|[12]\\d|3[01])[/-](?:19|20)\\d{2}\\b",
+      "validator": null
+    },
+    {
+      "id": "ADDRESS",
+      "token": "ADDR",
+      "pattern": "\\b\\d{1,5}\\s+(?:[A-Z][a-z]+\\s+){1,3}(?:Street|St|Avenue|Ave|Road|Rd|Lane|Ln|Drive|Dr|Boulevard|Blvd|Court|Ct|Way|Terrace|Ter)\\b",
+      "validator": null
+    },
+    {
+      "id": "ZIP_PLUS4",
+      "token": "ZIP",
+      "pattern": "\\b\\d{5}-\\d{4}\\b",
+      "validator": null
+    },
+    {
+      "id": "USERNAME",
+      "token": "USERNAME",
+      "pattern": "\\b(?:username|user ?id|login)\\s*(?:is|:|=)\\s*\"?([A-Za-z][A-Za-z0-9._-]{3,24})\"?",
+      "validator": null,
+      "group": 1,
+      "note": "Separator required. An earlier optional-separator version vaulted the word 'from' out of 'suspicious login from a state' \u2014 a precision bug the independent leak scanner caught in QA."
+    },
+    {
+      "id": "PERSON",
+      "token": "NAME",
+      "pattern": "\\b(?:Mr|Mrs|Ms|Miss|Dr)\\.?\\s+[A-Z][a-z]+(?:\\s+[A-Z][a-z]+)?\\b",
+      "validator": null
+    }
+  ],
+  "preserve": {
+    "note": "Dollar amounts, dates-without-year and relative dates are deliberately PRESERVED \u2014 they carry the severity signal and are not identifying on their own.",
+    "examples": [
+      "$412.00",
+      "three times",
+      "since June"
+    ]
+  }
+}

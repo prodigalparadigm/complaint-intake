@@ -1,0 +1,26 @@
+{
+  "rubric_id": "severity.B.v1",
+  "label": "Rubric B — exposure-weighted",
+  "provenance": "Reconstructed from senior analyst #2 in the same session: 'serious means this is the one that ends up in an exam finding or a CFPB complaint.'",
+  "status": "UNRATIFIED — our reading of the other analyst's instincts. A and B exist so the client can see the cost of not choosing.",
+  "dimensions": {
+    "financial_harm":      {"weight": 1.0, "levels": {"0": "No money at stake", "1": "Under $100 or already refunded", "2": "$100-$1000 unresolved", "3": "Over $1000 unresolved, or funds inaccessible"}},
+    "vulnerability":       {"weight": 1.0, "levels": {"0": "No signal", "1": "Mild hardship language", "2": "Fixed income, elderly, disability, bereavement", "3": "Cannot meet an essential obligation now"}},
+    "regulatory_exposure": {"weight": 3.5, "levels": {"0": "None detected", "1": "Adjacent to a regulated practice", "2": "Regulated practice implicated", "3": "Statutory clock running"}},
+    "recurrence":          {"weight": 2.0, "levels": {"0": "First contact", "1": "Second contact", "2": "Third contact", "3": "Fourth or more, or prior complaint unresolved"}},
+    "duration_unresolved": {"weight": 1.5, "levels": {"0": "Under a week", "1": "1-2 weeks", "2": "2-6 weeks", "3": "Over six weeks"}},
+    "escalation_signals":  {"weight": 3.0, "levels": {"0": "None", "1": "Frustration, threat to leave", "2": "Attorney or BBB mentioned", "3": "Regulator or media contacted"}},
+    "relationship_value":  {"weight": 0.5, "levels": {"0": "Unknown", "1": "Standard", "2": "Long tenure or multi-product", "3": "Flagged relationship"}}
+  },
+  "bands": [
+    {"id": "S1", "label": "Critical — same-day owner",      "min_normalized": 0.62},
+    {"id": "S2", "label": "High — 72-hour owner",            "min_normalized": 0.40},
+    {"id": "S3", "label": "Standard — one week",             "min_normalized": 0.22},
+    {"id": "S4", "label": "Routine — standard queue",        "min_normalized": 0.0}
+  ],
+  "overrides": [
+    {"id": "B-OV1", "when": "dimension:escalation_signals>=3", "force_min_band": "S1", "reason": "Analyst #2: 'the second they say CFPB it is a one.'"},
+    {"id": "B-OV2", "when": "dimension:regulatory_exposure>=3", "force_min_band": "S1", "reason": "Analyst #2: 'a live statutory clock is always a one.'"},
+    {"id": "B-OV3", "when": "dimension:recurrence>=2", "force_min_band": "S2", "reason": "Repeat contact is itself evidence of a process failure."}
+  ]
+}

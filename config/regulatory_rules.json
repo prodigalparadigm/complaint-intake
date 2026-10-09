@@ -1,0 +1,326 @@
+{
+  "ruleset_id": "regulatory.v1",
+  "owner": "Compliance",
+  "design_note": "Deliberately RECALL-BIASED. A false positive costs a compliance analyst two minutes of reading. A false negative costs a missed 48-hour regulatory clock. The tuning dial is `min_hits`, and Compliance owns it \u2014 not Engineering.",
+  "categories": [
+    {
+      "id": "REG_E_EFT",
+      "label": "Disputed / unauthorized electronic transaction",
+      "citation": "Reg E \u2014 12 CFR 1005.11 (error resolution)",
+      "statutory_clock": "10 business days to investigate, provisional credit",
+      "exposure": 3,
+      "min_hits": 1,
+      "triggers": [
+        "unauthorized",
+        "didn't authorize",
+        "did not authorize",
+        "never authorized",
+        "charge i did not make",
+        "charges i did not make",
+        "fraudulent charge",
+        "fraudulent transaction",
+        "disputed transaction",
+        "dispute this charge",
+        "dispute the charge",
+        "double charged",
+        "charged twice",
+        "duplicate charge",
+        "atm did not dispense",
+        "atm didn't dispense",
+        "money never arrived",
+        "transfer never",
+        "debit i never",
+        "stolen card",
+        "card was stolen",
+        "someone used my"
+      ]
+    },
+    {
+      "id": "REG_Z_BILLING",
+      "label": "Credit card billing error / disclosure",
+      "citation": "Reg Z \u2014 12 CFR 1026.13 (billing error resolution)",
+      "statutory_clock": "Acknowledge within 30 days, resolve within 2 billing cycles",
+      "exposure": 3,
+      "min_hits": 1,
+      "triggers": [
+        "billing error",
+        "statement is wrong",
+        "statement was wrong",
+        "interest rate changed",
+        "apr changed",
+        "apr went up",
+        "promotional rate",
+        "minimum payment wrong",
+        "credit limit was lowered",
+        "payment posted late",
+        "payment not credited",
+        "finance charge"
+      ]
+    },
+    {
+      "id": "REG_DD_FEES",
+      "label": "Deposit account fee / overdraft practice",
+      "citation": "Reg DD \u2014 12 CFR 1030; CFPB overdraft guidance",
+      "statutory_clock": null,
+      "exposure": 2,
+      "min_hits": 1,
+      "triggers": [
+        "overdraft fee",
+        "nsf fee",
+        "insufficient funds fee",
+        "maintenance fee",
+        "monthly fee",
+        "hidden fee",
+        "fee i was never told",
+        "never disclosed",
+        "wasn't disclosed",
+        "was not disclosed",
+        "stacked fees",
+        "multiple overdraft",
+        "three overdraft",
+        "reordered my transactions",
+        "representment",
+        "returned item fee",
+        "fee for a fee",
+        "apy",
+        "annual percentage yield",
+        "in fees",
+        "these fees",
+        "fees on my account",
+        "fees on account",
+        "fee was charged",
+        "nobody can justify"
+      ]
+    },
+    {
+      "id": "UDAAP",
+      "label": "Potential unfair, deceptive or abusive act or practice",
+      "citation": "Dodd-Frank \u00a71031/1036 (UDAAP)",
+      "statutory_clock": null,
+      "exposure": 3,
+      "min_hits": 1,
+      "triggers": [
+        "misled me",
+        "misleading",
+        "deceptive",
+        "lied to me",
+        "told me one thing",
+        "bait and switch",
+        "took advantage",
+        "taking advantage",
+        "unfair",
+        "predatory",
+        "trick",
+        "tricked",
+        "deliberately",
+        "wouldn't let me cancel",
+        "would not let me cancel",
+        "impossible to cancel",
+        "enrolled me without",
+        "signed me up without",
+        "without my consent",
+        "without my permission",
+        "wouldn't explain",
+        "refused to explain",
+        "no one would help",
+        "nobody would help",
+        "kept me on hold for",
+        "misled",
+        "nobody would explain",
+        "no one would explain",
+        "nobody will explain",
+        "closed my account without",
+        "without any notice",
+        "without telling me why",
+        "nobody can justify"
+      ]
+    },
+    {
+      "id": "ECOA_FAIRLEND",
+      "label": "Possible discrimination / fair lending",
+      "citation": "ECOA \u2014 12 CFR 1002; FHA",
+      "statutory_clock": "30 days adverse action notice",
+      "exposure": 3,
+      "min_hits": 1,
+      "triggers": [
+        "because of my race",
+        "because of my age",
+        "because i'm a woman",
+        "because i am a woman",
+        "because of my accent",
+        "because of my religion",
+        "because of my disability",
+        "discriminat",
+        "racist",
+        "treated differently than",
+        "my husband was approved",
+        "my wife was approved",
+        "redlin",
+        "denied without",
+        "no reason for the denial",
+        "wouldn't tell me why i was denied"
+      ]
+    },
+    {
+      "id": "FCRA_FURNISH",
+      "label": "Credit reporting / furnishing dispute",
+      "citation": "FCRA \u2014 15 USC 1681s-2(b)",
+      "statutory_clock": "30 days to investigate a furnisher dispute",
+      "exposure": 3,
+      "min_hits": 1,
+      "triggers": [
+        "credit report",
+        "credit bureau",
+        "credit score dropped",
+        "reported late",
+        "reported as delinquent",
+        "reported me to",
+        "equifax",
+        "experian",
+        "transunion",
+        "hurt my credit",
+        "damaged my credit",
+        "showing as past due"
+      ]
+    },
+    {
+      "id": "FDCPA_COLLECT",
+      "label": "Collection conduct",
+      "citation": "Reg F \u2014 12 CFR 1006 (FDCPA)",
+      "statutory_clock": null,
+      "exposure": 3,
+      "min_hits": 1,
+      "triggers": [
+        "called me at work",
+        "calling me at work",
+        "called my",
+        "keeps calling",
+        "called me seven",
+        "called me at 6am",
+        "called me at night",
+        "threatened to",
+        "threatened me",
+        "collection agency",
+        "collector",
+        "told my employer",
+        "told my neighbor",
+        "garnish",
+        "stop calling"
+      ]
+    },
+    {
+      "id": "RESPA_SERVICING",
+      "label": "Mortgage servicing error",
+      "citation": "RESPA \u2014 12 CFR 1024.35 (notice of error)",
+      "statutory_clock": "Acknowledge in 5 days, resolve in 30 business days",
+      "exposure": 3,
+      "min_hits": 1,
+      "triggers": [
+        "escrow",
+        "mortgage payment was applied",
+        "misapplied my payment",
+        "misapplied payment",
+        "payoff statement",
+        "force placed insurance",
+        "force-placed insurance",
+        "loss mitigation",
+        "loan modification",
+        "foreclosure",
+        "property tax was not paid",
+        "taxes weren't paid"
+      ]
+    },
+    {
+      "id": "REGULATOR_CONTACT",
+      "label": "Customer has contacted or invoked a banking regulator",
+      "citation": "Not a violation category \u2014 a jurisdictional escalation signal",
+      "statutory_clock": "Any regulator inquiry carries its own response deadline",
+      "exposure": 3,
+      "min_hits": 1,
+      "triggers": [
+        "cfpb",
+        "consumer financial protection",
+        "occ",
+        "comptroller of the currency",
+        "fdic",
+        "attorney general",
+        "state banking",
+        "banking commissioner"
+      ]
+    },
+    {
+      "id": "LEGAL_MEDIA_THREAT",
+      "label": "Legal action, BBB or media threatened",
+      "citation": "Not a violation category \u2014 a litigation and reputational signal",
+      "statutory_clock": null,
+      "exposure": 2,
+      "min_hits": 1,
+      "triggers": [
+        "my lawyer",
+        "my attorney",
+        "legal action",
+        "sue you",
+        "suing",
+        "lawsuit",
+        "small claims",
+        "legal counsel",
+        "better business bureau",
+        "bbb",
+        "news station",
+        "channel 7",
+        "local news",
+        "reporter",
+        "lawyer",
+        "spoken to an attorney",
+        "talked to an attorney"
+      ]
+    }
+  ],
+  "negation_guards": {
+    "note": "If a trigger appears inside one of these constructions the hit is downgraded to 'weak' (still surfaced, but does not alone satisfy min_hits).",
+    "patterns": [
+      "i am not (?:saying|claiming|accusing)",
+      "this is not (?:a )?(?:fraud|dispute)",
+      "no one (?:misled|lied)",
+      "i'm not going to (?:sue|complain to)",
+      "i don't think (?:it was|this is) unauthorized",
+      "unlike last time"
+    ]
+  },
+  "document_scope_guards": {
+    "note": "A local 90-character negation window is not enough when the customer opens with an explicit disclaimer and then describes the same vocabulary later: 'I am not saying this was unauthorized... it made me think we had been charged twice' tripped Reg E on the second clause and then the Reg E ownership rule misrouted the whole case. These patterns downgrade the named category across the WHOLE complaint. Scoped to specific categories on purpose \u2014 a disclaimer about a disputed charge says nothing about a fee practice.",
+    "guards": [
+      {
+        "pattern": "i (?:want to be clear that i )?am not (?:saying|claiming|alleging)[^.]{0,60}unauthorized",
+        "downgrades": [
+          "REG_E_EFT"
+        ]
+      },
+      {
+        "pattern": "(?:this|it) is not (?:a )?(?:dispute|fraud|unauthorized)",
+        "downgrades": [
+          "REG_E_EFT"
+        ]
+      },
+      {
+        "pattern": "i (?:do not|don't) think (?:it was|this is|this was) (?:unauthorized|fraud)",
+        "downgrades": [
+          "REG_E_EFT"
+        ]
+      },
+      {
+        "pattern": "(?:the app|your app|the website) is wrong,? not the charge",
+        "downgrades": [
+          "REG_E_EFT"
+        ]
+      },
+      {
+        "pattern": "i (?:am|'m) not (?:going to )?(?:sue|suing|taking legal)",
+        "downgrades": [
+          "LEGAL_MEDIA_THREAT"
+        ]
+      }
+    ]
+  },
+  "tuning_disclosure": "Triggers marked in git history as added on 2026-10-08 were added after inspecting misses on our own synthetic corpus. Recall measured on that same corpus is therefore partly in-sample and optimistic. The 'quiet' complaints \u2014 genuinely regulatory, no trigger vocabulary \u2014 were deliberately NOT tuned for, and the recall figure on them is the honest indicator of this engine's ceiling."
+}

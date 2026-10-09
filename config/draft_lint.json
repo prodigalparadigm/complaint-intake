@@ -1,0 +1,70 @@
+{
+  "ruleset_id": "draft_lint.v1",
+  "owner": "Compliance",
+  "note": "A draft that trips a `block` rule cannot reach an analyst's approval queue at all \u2014 it is returned to rework. This is the mechanism that answers the compliance officer's objection: the question is not whether the model is well-behaved, it is whether a badly-behaved draft can physically reach a customer.",
+  "block": [
+    {
+      "id": "L-ADMIT",
+      "pattern": "\\b(?:we (?:were|are) (?:at fault|liable|negligent)|our (?:error|mistake|fault) caused|we admit)\\b",
+      "why": "Admission of liability in writing, pre-investigation."
+    },
+    {
+      "id": "L-GUARANTEE",
+      "pattern": "\\b(?:we guarantee|guaranteed|we promise|rest assured that we will|you will definitely)\\b",
+      "why": "Unqualified promise."
+    },
+    {
+      "id": "L-REFUND",
+      "pattern": "\\b(?:we (?:will|have) (?:refund|credit|reimburse)\\w*|a full refund|has been refunded)\\b",
+      "why": "States a remediation outcome before an investigation has concluded."
+    },
+    {
+      "id": "L-LEGAL",
+      "pattern": "\\b(?:you (?:should|may want to) (?:consult|contact) (?:a|an|your) (?:lawyer|attorney)|you have no (?:legal )?(?:claim|right)|this is not covered by law)\\b",
+      "why": "Legal advice or a legal conclusion."
+    },
+    {
+      "id": "L-DEADLINE",
+      "pattern": "\\b(?:within (?:24|48) hours|by tomorrow|same day resolution|immediately resolved)\\b",
+      "why": "Commits to a timeframe the bank has not agreed to."
+    },
+    {
+      "id": "L-PII",
+      "pattern": "\\b\\d{6,}\\b",
+      "why": "Bare long digit string in customer-facing text \u2014 possible un-redacted identifier."
+    },
+    {
+      "id": "L-BLAME",
+      "pattern": "\\b(?:you (?:failed to|should have|neglected to)|your (?:own )?(?:error|mistake|negligence))\\b",
+      "why": "Blames the customer. UDAAP-adjacent tone risk."
+    },
+    {
+      "id": "L-UNFILLED",
+      "pattern": "\\{\\{[A-Z_]+\\}\\}",
+      "why": "Unfilled template slot reached the draft.",
+      "applies_after_fill": true
+    }
+  ],
+  "warn": [
+    {
+      "id": "W-HEDGE",
+      "pattern": "\\b(?:unfortunately|regrettably|as you are aware)\\b",
+      "why": "Tone: reads as deflection to a frustrated customer."
+    },
+    {
+      "id": "W-JARGON",
+      "pattern": "\\b(?:provisional credit|representment|furnisher|adverse action)\\b",
+      "why": "Internal or regulatory jargon in customer-facing text."
+    },
+    {
+      "id": "W-LENGTH",
+      "pattern": "^(?:.|\\n){1400,}$",
+      "why": "Draft is long; analysts will not read it, they will rewrite it."
+    },
+    {
+      "id": "W-PLACEHOLDER",
+      "pattern": "\\[(?:ACCT|CARD|SSN|PHONE|EMAIL|NAME|ADDR|ROUTING|DOB|ZIP|USERNAME)_\\d+\\]",
+      "why": "A redaction placeholder is inside the draft. It will be rehydrated with the real value at send time, which is correct for a letter to the account holder \u2014 but confirm it reads naturally."
+    }
+  ]
+}
