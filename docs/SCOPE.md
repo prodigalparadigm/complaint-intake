@@ -9,9 +9,10 @@
 
 ## The short version of our answer
 
-"Handle complaints" bundles five different jobs. Three of them are safely
-automatable today, one is automatable only after Meridian Harbor makes a decision
-it has not yet made, and one must not be automated at all in this engagement.
+"Handle complaints" bundles six different jobs. Three of them are safely
+automatable today, one is partly automatable, one is automatable only after
+Meridian Harbor makes a decision it has not yet made, and one must not be
+automated at all in this engagement.
 Treating them as one project is how the last vendor pilot died.
 
 | The job | Automatable? | What we built |

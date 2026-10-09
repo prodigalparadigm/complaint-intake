@@ -31,7 +31,7 @@ These are the ones to rely on. They are structural, enforced in code, and tested
 | Worst compliance flag latency | **0.0 hours** |
 | Determinism: same complaint processed twice | **25 / 25 identical** |
 | Drafts reaching the approval queue with a blocking lint finding | **0** |
-| Test suite | **110 passing**, stdlib only, no dependencies |
+| Test suite | **112 passing**, stdlib only, no dependencies |
 
 ### The 48-hour clock
 

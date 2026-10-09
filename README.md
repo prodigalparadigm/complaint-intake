@@ -34,7 +34,7 @@ Individually:
 make data       # regenerate the 120-complaint synthetic corpus
 make run        # run the pipeline, write out/cases/ + out/audit.jsonl
 make evals      # measure behaviour -> out/evidence.json, enforce the hard gates
-make test       # 110 tests, stdlib unittest
+make test       # 112 tests, stdlib unittest
 make console    # build the self-contained HTML review console
 make calibrate  # where the two definitions of "serious" diverge
 make simulate   # backlog arithmetic with a sensitivity table
@@ -103,7 +103,7 @@ outbound payload would contain without sending anything.
 | Rubric A vs B agreement on severity | **14%** |
 | Cases the pipeline marked sendable | 0 |
 | Throughput | 2.65 ms/complaint — 3.7 seconds for a month's volume |
-| Tests | 110 passing |
+| Tests | 112 passing |
 
 Measured on 120 synthetic complaints with gold labels. Synthetic because the real
 text is exactly the data that must not move. See EVIDENCE.md for what that does and
@@ -121,7 +121,7 @@ src/mhb/    models, store, orchestrator, review gate, metrics, console builder
   engines/  rules (default, offline) · claude (written, tested, off)
 data/       synthetic corpus generator
 evals/      the evidence harness and its six hard gates
-tests/      110 tests, no dependencies
+tests/      112 tests, no dependencies
 out/        generated — cases, audit log, evidence.json, console.html
 vault/      generated — original identifier values. gitignored.
 ```

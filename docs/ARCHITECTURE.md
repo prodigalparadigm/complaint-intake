@@ -187,7 +187,7 @@ src/mhb/
   engines/      rules (default) and claude (off)
 data/generate.py    synthetic corpus with gold labels
 evals/run_evals.py  the evidence harness and its hard gates
-tests/              110 tests, stdlib unittest, no dependencies
+tests/              112 tests, stdlib unittest, no dependencies
 docs/
 out/                generated: cases, audit log, evidence.json, console.html
 vault/              generated: originals. gitignored.
